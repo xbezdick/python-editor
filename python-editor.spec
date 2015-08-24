@@ -7,7 +7,7 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-editor
-Version:        0.3
+Version:        master
 Release:        1%{?dist}
 Summary:        Programmatically open an editor, capture the result.
 
