@@ -1,37 +1,41 @@
 %global pypi_name python-editor
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
-Name:		python-editor
-Version:	0.3
-Release:	1%{?dist}
-Summary:	Programmatically open an editor, capture the result.
+Name:           python-editor
+Version:        0.3
+Release:        1%{?dist}
+Summary:        Programmatically open an editor, capture the result.
 
-License:	ASL 2.0
-URL:		https://github.com/fmoo/python-editor
-Source0:	https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+License:        ASL 2.0
+URL:            https://github.com/fmoo/python-editor
+# We need README.md and LICENSE files in so we don't use pypi tarballs for now
+# https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source:         https://github.com/fmoo/python-editor/archive/master.tar.gz
 
-BuildArch:      noarch	
+BuildArch:      noarch
 
-BuildRequires:  python2-devel python3-devel
+BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 
 %description
 An python module which provides a convenient example.
 
-%package -n python2-editor
-Summary:	Programmatically open an editor, capture the result.
-%{?python_provide:%python_provide python2-editor}
 
-%description -n python2-editor
-An python module which provides a convenient example.
-
+%if 0%{with_python3}
 %package -n python3-editor
-Summary:	Programmatically open an editor, capture the result.
+Summary:        Programmatically open an editor, capture the result.
+BuildRequires:  python3-devel
+
 %{?python_provide:%python_provide python3-editor}
 
 %description -n python3-editor
 An python module which provides a convenient example.
+%endif
 
 %prep
 %setup -q -n %{pypi_name}-%{upstream_version}
@@ -39,20 +43,30 @@ An python module which provides a convenient example.
 
 %build
 %{__python2} setup.py build
+%if 0%{with_python3}
 %{__python3} setup.py build
+%endif
 
 %install
 %{__python2} setup.py install --skip-build --root %{buildroot}
+%if 0%{with_python3}
 %{__python3} setup.py install --skip-build --root %{buildroot}
+%endif
 
 %check
 
-%files -n python2-editor
+%files
+%doc README.md
+%license LICENSE
 %{python2_sitelib}/*
 
+%if 0%{with_python3}
 %files -n python3-editor
-%{python3_sitelib}/*
-
+%license LICENSE
+%{python3_sitelib}/*.egg-info
+%{python3_sitelib}/editor.py
+%{python3_sitelib}/__pycache__/*
+%endif
 
 
 %changelog
