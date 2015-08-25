@@ -62,6 +62,7 @@ An python module which provides a convenient example.
 
 %if 0%{with_python3}
 %files -n python3-editor
+%doc README.md
 %license LICENSE
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/editor.py
