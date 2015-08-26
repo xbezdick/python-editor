@@ -46,9 +46,12 @@ rm -rf %{pypi_name}.egg-info
 %endif
 
 %install
-%{__python2} setup.py install --skip-build --root %{buildroot}
+%{__python2} setup.py install --skip-build --root=$RPM_BUILD_ROOT
+chmod a+x $RPM_BUILD_ROOT%{python2_sitelib}/editor.py
+
 %if 0%{with_python3}
-%{__python3} setup.py install --skip-build --root %{buildroot}
+%{__python3} setup.py install --skip-build --root=$RPM_BUILD_ROOT
+chmod a+x $RPM_BUILD_ROOT%{python3_sitelib}/editor.py
 %endif
 
 %check
