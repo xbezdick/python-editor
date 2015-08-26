@@ -7,13 +7,12 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-editor
-Version:        0.3
+Version:        0.4
 Release:        1%{?dist}
 Summary:        Programmatically open an editor, capture the result.
 
 License:        ASL 2.0
 URL:            https://github.com/fmoo/python-editor
-# We need README.md and LICENSE files in so we don't use pypi tarballs for now
 Source:         https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 
 BuildArch:      noarch
@@ -55,17 +54,15 @@ rm -rf %{pypi_name}.egg-info
 %check
 
 %files
-# https://github.com/fmoo/python-editor/issues/3
-#%doc README.md
-#%license LICENSE
+%doc README.md
+%license LICENSE
 %{python2_sitelib}/editor.py*
 %{python2_sitelib}/python_editor-%{version}-py?.?.egg-info
 
 %if 0%{with_python3}
 %files -n python3-editor
-# https://github.com/fmoo/python-editor/issues/3
-#%doc README.md
-#%license LICENSE
+%doc README.md
+%license LICENSE
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/editor.py*
 %{python3_sitelib}/__pycache__/*
@@ -73,5 +70,8 @@ rm -rf %{pypi_name}.egg-info
 
 
 %changelog
+* Wed Aug 26 2015 Lukas Bezdicka <lbezdick@redhat.com> - 0.4-1
+- Bump to 0.4
+
 * Tue Aug 25 2015 Lukas Bezdicka <lbezdick@redhat.com> - 0.3-1
 - initial package
